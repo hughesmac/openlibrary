@@ -2,7 +2,7 @@
 Open Library Plugin.
 """
 
-from urllib.parse import parse_qs, urlparse, urlencode, urlunparse
+from urllib.parse import parse_qs, urlencode
 import requests
 import web
 import json
@@ -25,7 +25,7 @@ if not hasattr(infogami.config, 'features'):
     infogami.config.features = []  # type: ignore[attr-defined]
 
 from infogami.utils.app import metapage
-from infogami.utils import delegate
+from infogami.utils import delegate, features
 from openlibrary.utils import dateutil
 from infogami.utils.view import (
     render,
@@ -38,7 +38,9 @@ from infogami.infobase import client
 from infogami.core.db import ValidationException
 
 from openlibrary.core import cache
-from openlibrary.core.vendors import create_edition_from_amazon_metadata
+from openlibrary.core.vendors import (
+    create_edition_from_amazon_metadata,  # noqa: F401 side effects may be needed
+)
 from openlibrary.utils.isbn import isbn_13_to_isbn_10, isbn_10_to_isbn_13, canonical
 from openlibrary.core.models import Edition
 from openlibrary.core.lending import get_availability
@@ -53,6 +55,7 @@ delegate.app.add_processor(processors.ReadableUrlProcessor())
 delegate.app.add_processor(processors.ProfileProcessor())
 delegate.app.add_processor(processors.CORSProcessor(cors_prefixes={'/api/'}))
 delegate.app.add_processor(processors.PreferenceProcessor())
+delegate.app.add_processor(processors.RequireLogoutProcessor())
 
 try:
     from infogami.plugins.api import code as api
@@ -298,7 +301,7 @@ class addauthor(delegate.page):
 
 class clonebook(delegate.page):
     def GET(self):
-        from infogami.core.code import edit
+        from infogami.core.code import edit  # noqa: F401 side effects may be needed
 
         i = web.input('key')
         page = web.ctx.site.get(i.key)
@@ -1124,7 +1127,6 @@ def save_error():
 
 
 def internalerror():
-    i = web.input(_method='GET', debug='false')
     name = save_error()
 
     # TODO: move this stats stuff to plugins\openlibrary\stats.py
@@ -1138,7 +1140,7 @@ def internalerror():
     if sentry.enabled:
         sentry.capture_exception_webpy()
 
-    if i.debug.lower() == 'true':
+    if features.is_enabled('debug'):
         raise web.debugerror()
     else:
         msg = render.site(render.internalerror(name))
@@ -1406,7 +1408,9 @@ def setup():
     authors.setup()
     swagger.setup()
 
-    from openlibrary.plugins.openlibrary import api
+    from openlibrary.plugins.openlibrary import (
+        api,  # noqa: F401 side effects may be needed
+    )
 
     delegate.app.add_processor(web.unloadhook(stats.stats_hook))
 

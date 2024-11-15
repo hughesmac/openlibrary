@@ -14,7 +14,7 @@ $# :param openlibrary.plugins.upstream.forms.RegisterForm form:
 
 $var title: $_("Sign Up to Open Library")
 
-<div class="ol-page-signup">
+<div class="ol-page-signup"">
     <div id="contentHead" class="ol-signup-hero">
         <h1 class="ol-signup-hero__title">$_("Sign Up")</h1>
         <p class="ol-signup-hero__subtitle">$_("Get your free Open Library card and borrow digital books from the nonprofit Internet Archive")</p>
@@ -23,7 +23,14 @@ $var title: $_("Sign Up to Open Library")
     <div id="contentBody" class="ol-signup-form">
 
     $if not ctx.user:
-        $:render_template("account/ia_thirdparty_logins")
+        <div class="flash-messages">
+            <div class="info ol-signup-form__info-box error">
+                <span>
+                    $_("Google sign-in is temporarily unavailable, sorry for the inconvenience.")
+                </span>
+            </div>
+        </div>
+        $#:render_template("account/ia_thirdparty_logins")
         <div class="ol-signup-form__big-or">$_('OR')</div>
 
     $def field(input, suffix=''):
