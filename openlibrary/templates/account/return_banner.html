@@ -3,15 +3,13 @@ $ cta_copy = _('Welcome to Open Library! To finish checking out Placeholder Titl
 $ btn_copy = _('Click here')
 $ book_cover_url = 'https://images.penguinrandomhouse.com/cover/9780147514011'
 
-$ announcement = '''
-<div style="display: flex; align-items: center; gap: 15px;">
-    <img src="%s" alt="Book Cover" style="width: 50px; height: auto;">
+$ announcement = '''<div style="display: flex; align-items: center; gap: 15px;">
+    <img src="{{ book_cover_url }}" alt="Book Cover" style="width: 50px; height: auto;">
     <div>
-        <p style="margin: 0;">%s</p>
-        <a href="javascript:;" style="background-color: red; color: white; border: none; padding: 8px 12px; border-radius: 5px; text-decoration: none; display: inline-block; margin-top: 5px;">%s</a>
+        <p style="margin: 0;">{{ cta_copy }}</p>
+        <a href="javascript:;" style="background-color: red; color: white; border: none; padding: 8px 12px; border-radius: 5px; text-decoration: none; margin-top: 5px;">{{ btn_copy }}</a>
     </div>
-</div>
-''' % (book_cover_url, cta_copy, btn_copy)
-
+</div>'''
+$#'%s <img src="%s" alt="Book Cover" class="book-cover" style="width: 50px; height: auto; margin-right: 10px;"> <a class="btn primary set-reading-goal-link" data-ol-link-track="MyBooksLandingPage|SetReadingGoal" href="javascript:;" style="background-color: rgb(127, 234, 110); color: white; border: none; padding: 10px 15px; border-radius: 5px; text-decoration: none;">%s</a>' % (cta_copy, book_cover_url, btn_copy)
 $ cookie_name = 'returnbanner'
 $: render_template('site/banner', announcement, cookie_name, cookie_duration_days=365)
