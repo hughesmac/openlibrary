@@ -2,6 +2,7 @@ $def with (announcement)
 $ cta_copy = _('Welcome to Open Library! To finish checking out Placeholder Title:')
 $ btn_copy = _('Click here')
 $ book_cover_url = 'https://images.penguinrandomhouse.com/cover/9780147514011'
-$ announcement =  '%s <img src="%s" alt="Book Cover" class="book-cover" style="width: 50px; height: auto; margin-right: 10px;"> <a class="return_banner" data-ol-link-track="MyBooksLandingPage|SetReadingGoal" href="/works/OL8193488W/Adventures_of_Tom_Sawyer?edition=key%3A/books/OL7652777M" style="background-color: rgb(127, 234, 110); color: white; border: none; padding: 10px 15px; border-radius: 5px; text-decoration: none;">%s</a>' % (cta_copy, book_cover_url, btn_copy)
+$ announcement =  '%s <img src="%s" alt="Book Cover" class="book-cover" style="width: 50px; height: auto; margin-right: 10px;"> <a class="btn primary set-reading-goal-link" data-ol-link-track="MyBooksLandingPage|SetReadingGoal" href="javascript:;">%s</a>' % (cta_copy, book_cover_url, btn_copy)
+$# '%s <a class="btn primary set-reading-goal-link" data-ol-link-track="MyBooksLandingPage|SetReadingGoal"href="javascript:;">%s</a>' % (cta_copy, btn_copy)
 $ cookie_name = 'returnbanner'
 $:render_template('site/banner', announcement, cookie_name, cookie_duration_days=365)
